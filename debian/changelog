@@ -1,3 +1,16 @@
+libarchive (2.8.4.forreal-1+squeeze2) stable-security; urgency=low
+
+  * Rebuild to correct orig tarball mismatch.
+
+ -- Raphael Geissert <geissert@debian.org>  Tue, 21 Feb 2012 00:50:58 -0600
+
+libarchive (2.8.4-1+squeeze1) stable-security; urgency=high
+
+  * Backport fixes for fix for CVE-2011-1777 and CVE-2011-1778.
+    (Closes: #651844)
+
+ -- Andres Mejia <amejia@debian.org>  Fri, 23 Dec 2011 11:26:28 -0500
+
 libarchive (2.8.4-1) unstable; urgency=low
 
   * Update debian/watch for new code.google.com layout.
