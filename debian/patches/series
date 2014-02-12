@@ -1,7 +1,3 @@
-0001-Patch-from-upstream-revision-1990.patch
-0002-Patch-from-upstream-revision-1991.patch
-0003-Patch-from-upstream-rev-2516.patch
-0004-Patch-from-upstream-rev-2514.patch
-0005-Patch-from-upstream-rev-2520.patch
-0006-Patch-from-upstream-rev-2521.patch
-0007-Ignore-ENOSYS-error-when-setting-up-xattrs.-Closes-5.patch
+gcc-4.7-fixes-from-upstream.patch
+fix-CVE-2013-0211.patch
+integers-for-s390x.patch

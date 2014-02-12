@@ -1,5 +1,3 @@
 version=3
-opts=\
-downloadurlmangle=s|.*[?]name=(.*?)&.*|http://libarchive.googlecode.com/files/$1|,\
-filenamemangle=s|[^/]+[?]name=(.*?)&.*|$1| \
-http://code.google.com/p/libarchive/downloads/detail[?]name=libarchive-([0-9.]+).tar.gz&.*
+opts=dversionmangle=s/[-.+~]?(cvs|svn|git|snapshot|pre|hg|repack)(.*)$//i,pasv,uversionmangle=s/^v//i \
+http://githubredir.debian.net/github/libarchive/libarchive/ (.*)\.tar\.gz
