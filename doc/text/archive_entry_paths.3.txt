@@ -1,4 +1,3 @@
-
 ARCHIVE_ENTRY_PATHS(3)	 BSD Library Functions Manual	ARCHIVE_ENTRY_PATHS(3)
 
 NAME
@@ -17,7 +16,7 @@ NAME
      tions for manipulating path names in archive entry descriptions
 
 LIBRARY
-     Streaming Archive Library (libarchive, ‐larchive)
+     Streaming Archive Library (libarchive, -larchive)
 
 SYNOPSIS
      #include <archive_entry.h>
@@ -118,7 +117,7 @@ DESCRIPTION
      wchar_t *	Wide character strings in the current locale.  The accessor
 		functions are named XXX_w().
 
-     UTF‐8	Unicode strings encoded as UTF‐8.  This are convience func‐
+     UTF-8	Unicode strings encoded as UTF-8.  This are convience func‐
 		tions to update both the multibyte and wide character strings
 		at the same time.
 
@@ -127,7 +126,7 @@ DESCRIPTION
 
      For that reason, it is only available as multibyte string.  The link path
      is a convience function for conditionally setting hardlink or symlink
-     destination.  It doesn’t have a corresponding get accessor function.
+     destination.  It doesn't have a corresponding get accessor function.
 
      archive_entry_set_XXX() is an alias for archive_entry_copy_XXX().
 
