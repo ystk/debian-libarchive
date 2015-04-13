@@ -6,3 +6,5 @@ Initialize-buff-to-all-zeros.patch
 Allow-the-option-to-use-no-2nd-stage-compression-wit.patch
 Fix-test_archive_write_add_filter_by_name_lrzip-test.patch
 fix-CVE-2013-0211.patch
+Do-not-overwrite-file-size-if-the-local-file-header-.patch
+Add-ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS-option.patch

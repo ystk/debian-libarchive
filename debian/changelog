@@ -1,3 +1,18 @@
+libarchive (3.1.2-11) unstable; urgency=medium
+
+  * Add d/p/Add-ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS-option.patch
+    (Closes: #778266)
+
+ -- Andreas Henriksson <andreas@fatal.se>  Thu, 05 Mar 2015 14:54:43 +0100
+
+libarchive (3.1.2-10) unstable; urgency=medium
+
+  * Add d/p/Do-not-overwrite-file-size-if-the-local-file-header-.patch
+    - cherry-picked from upstream git commit e234932de2474c4f99787
+    Thanks to Maximiliano Curia (Closes: #769290)
+
+ -- Andreas Henriksson <andreas@fatal.se>  Thu, 20 Nov 2014 21:10:43 +0100
+
 libarchive (3.1.2-9) unstable; urgency=medium
 
   [ Andreas Henriksson ]
