@@ -7,3 +7,4 @@
 0007-Ignore-ENOSYS-error-when-setting-up-xattrs.-Closes-5.patch
 CVE-2011-1777.patch
 CVE-2011-1778.patch
+fix-cpio-directory-traversal.patch

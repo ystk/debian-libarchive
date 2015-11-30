@@ -1,0 +1,143 @@
+From 59357157706d47c365b2227739e17daba3607526 Mon Sep 17 00:00:00 2001
+From: Alessandro Ghedini <alessandro@ghedini.me>
+Date: Sun, 1 Mar 2015 12:07:45 +0100
+Subject: [PATCH] Add ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS option
+
+This fixes a directory traversal in the cpio tool.
+---
+ cpio/bsdcpio.1                           |  3 ++-
+ cpio/cpio.c                              |  2 ++
+ libarchive/archive.h                     |  2 ++
+ libarchive/archive_write_disk.3          |  3 +++
+ libarchive/archive_write_disk.c          | 14 +++++++++++---
+ libarchive/test/test_write_disk_secure.c | 23 +++++++++++++++++++++++
+ 6 files changed, 43 insertions(+), 4 deletions(-)
+
+Index: libarchive-2.8.4.forreal/cpio/bsdcpio.1
+===================================================================
+--- libarchive-2.8.4.forreal.orig/cpio/bsdcpio.1	2015-03-07 14:50:10.000000000 +0100
++++ libarchive-2.8.4.forreal/cpio/bsdcpio.1	2015-03-07 14:50:10.000000000 +0100
+@@ -159,7 +159,8 @@
+ .It Fl -insecure
+ (i and p mode only)
+ Disable security checks during extraction or copying.
+-This allows extraction via symbolic links and path names containing
++This allows extraction via symbolic links, absolute paths,
++and path names containing
+ .Sq ..
+ in the name.
+ .It Fl J
+Index: libarchive-2.8.4.forreal/cpio/cpio.c
+===================================================================
+--- libarchive-2.8.4.forreal.orig/cpio/cpio.c	2015-03-07 14:50:10.000000000 +0100
++++ libarchive-2.8.4.forreal/cpio/cpio.c	2015-03-07 14:50:10.000000000 +0100
+@@ -162,6 +162,7 @@
+ 	cpio->extract_flags |= ARCHIVE_EXTRACT_NO_OVERWRITE_NEWER;
+ 	cpio->extract_flags |= ARCHIVE_EXTRACT_SECURE_SYMLINKS;
+ 	cpio->extract_flags |= ARCHIVE_EXTRACT_SECURE_NODOTDOT;
++	cpio->extract_flags |= ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS;
+ 	cpio->extract_flags |= ARCHIVE_EXTRACT_PERM;
+ 	cpio->extract_flags |= ARCHIVE_EXTRACT_FFLAGS;
+ 	cpio->extract_flags |= ARCHIVE_EXTRACT_ACL;
+@@ -231,6 +232,7 @@
+ 		case OPTION_INSECURE:
+ 			cpio->extract_flags &= ~ARCHIVE_EXTRACT_SECURE_SYMLINKS;
+ 			cpio->extract_flags &= ~ARCHIVE_EXTRACT_SECURE_NODOTDOT;
++			cpio->extract_flags &= ~ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS;
+ 			break;
+ 		case 'L': /* GNU cpio */
+ 			cpio->option_follow_links = 1;
+Index: libarchive-2.8.4.forreal/libarchive/archive.h
+===================================================================
+--- libarchive-2.8.4.forreal.orig/libarchive/archive.h	2015-03-07 14:50:10.000000000 +0100
++++ libarchive-2.8.4.forreal/libarchive/archive.h	2015-03-07 14:53:00.000000000 +0100
+@@ -470,6 +470,8 @@
+ #define	ARCHIVE_EXTRACT_NO_OVERWRITE_NEWER	(0x0800)
+ /* Detect blocks of 0 and write holes instead. */
+ #define	ARCHIVE_EXTRACT_SPARSE			(0x1000)
++/* Default: Do not reject entries with absolute paths (value taken from Wheezy patch) */
++#define ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS (0x10000)
+ 
+ __LA_DECL int	 archive_read_extract(struct archive *, struct archive_entry *,
+ 		     int flags);
+Index: libarchive-2.8.4.forreal/libarchive/archive_write_disk.3
+===================================================================
+--- libarchive-2.8.4.forreal.orig/libarchive/archive_write_disk.3	2015-03-07 14:50:10.000000000 +0100
++++ libarchive-2.8.4.forreal/libarchive/archive_write_disk.3	2015-03-07 14:50:10.000000000 +0100
+@@ -169,6 +169,9 @@
+ Note that paths ending in
+ .Pa ..
+ always cause an error, regardless of this flag.
++.It Cm ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS
++Refuse to extract an absolute path.
++The default is to not refuse such paths.
+ .It Cm ARCHIVE_EXTRACT_SPARSE
+ Scan data for blocks of NUL bytes and try to recreate them with holes.
+ This results in sparse files, independent of whether the archive format
+Index: libarchive-2.8.4.forreal/libarchive/archive_write_disk.c
+===================================================================
+--- libarchive-2.8.4.forreal.orig/libarchive/archive_write_disk.c	2015-03-07 14:50:10.000000000 +0100
++++ libarchive-2.8.4.forreal/libarchive/archive_write_disk.c	2015-03-07 14:50:10.000000000 +0100
+@@ -1566,8 +1566,9 @@
+ /*
+  * Canonicalize the pathname.  In particular, this strips duplicate
+  * '/' characters, '.' elements, and trailing '/'.  It also raises an
+- * error for an empty path, a trailing '..' or (if _SECURE_NODOTDOT is
+- * set) any '..' in the path.
++ * error for an empty path, a trailing '..', (if _SECURE_NODOTDOT is
++ * set) any '..' in the path or (if ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS
++ * is set) if the path is absolute.
+  */
+ static int
+ cleanup_pathname(struct archive_write_disk *a)
+@@ -1586,8 +1587,15 @@
+ 	cleanup_pathname_win(a);
+ #endif
+ 	/* Skip leading '/'. */
+-	if (*src == '/')
++	if (*src == '/') {
++		if (a->flags & ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS) {
++			archive_set_error(&a->archive, ARCHIVE_ERRNO_MISC,
++			                  "Path is absolute");
++			return (ARCHIVE_FAILED);
++		}
++
+ 		separator = *src++;
++	}
+ 
+ 	/* Scan the pathname one element at a time. */
+ 	for (;;) {
+Index: libarchive-2.8.4.forreal/libarchive/test/test_write_disk_secure.c
+===================================================================
+--- libarchive-2.8.4.forreal.orig/libarchive/test/test_write_disk_secure.c	2015-03-07 14:50:10.000000000 +0100
++++ libarchive-2.8.4.forreal/libarchive/test/test_write_disk_secure.c	2015-03-07 14:56:59.000000000 +0100
+@@ -178,6 +178,29 @@
+ 	assert(S_ISDIR(st.st_mode));
+ 	archive_entry_free(ae);
+ 
++        /*
++         * Without security checks, we should be able to
++         * extract an absolute path.
++         */
++        assert((ae = archive_entry_new()) != NULL);
++        archive_entry_copy_pathname(ae, "/tmp/libarchive_test-test_write_disk_secure-absolute_path.tmp");
++        archive_entry_set_mode(ae, S_IFREG | 0777);
++        assert(0 == archive_write_header(a, ae));
++        assert(0 == archive_write_finish_entry(a));
++        assertFileExists("/tmp/libarchive_test-test_write_disk_secure-absolute_path.tmp");
++        assert(0 == unlink("/tmp/libarchive_test-test_write_disk_secure-absolute_path.tmp"));
++
++        /* But with security checks enabled, this should fail. */
++        assert(archive_entry_clear(ae) != NULL);
++        archive_entry_copy_pathname(ae, "/tmp/libarchive_test-test_write_disk_secure-absolute_path.tmp");
++        archive_entry_set_mode(ae, S_IFREG | 0777);
++        archive_write_disk_set_options(a, ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS);
++        failure("Extracting an absolute path should fail here.");
++        assertEqualInt(ARCHIVE_FAILED, archive_write_header(a, ae));
++        archive_entry_free(ae);
++        assert(0 == archive_write_finish_entry(a));
++        assertFileNotExists("/tmp/libarchive_test-test_write_disk_secure-absolute_path.tmp");
++
+ 	assert(0 == archive_write_finish(a));
+ 
+ 	/* Test the entries on disk. */

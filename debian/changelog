@@ -1,3 +1,10 @@
+libarchive (2.8.4.forreal-1+squeeze3) squeeze-lts; urgency=high
+
+  * Non-maintainer upload by the Squeeze LTS Team
+  * Fix directory traversal vulnerability in bsdcpio (Closes: #778266)
+
+ -- Thorsten Alteholz <debian@alteholz.de>  Sat, 07 Mar 2015 14:40:58 -0600
+
 libarchive (2.8.4.forreal-1+squeeze2) stable-security; urgency=low
 
   * Rebuild to correct orig tarball mismatch.
