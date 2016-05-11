@@ -8,3 +8,4 @@ Fix-test_archive_write_add_filter_by_name_lrzip-test.patch
 fix-CVE-2013-0211.patch
 Do-not-overwrite-file-size-if-the-local-file-header-.patch
 Add-ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS-option.patch
+Issue-656-Fix-CVE-2016-1541-VU-862384.patch

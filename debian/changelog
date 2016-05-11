@@ -1,3 +1,11 @@
+libarchive (3.1.2-11+deb8u1) jessie-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * CVE-2016-1541: heap-based buffer overflow due to improper input
+    validation (Closes: #823893)
+
+ -- Salvatore Bonaccorso <carnil@debian.org>  Tue, 10 May 2016 07:00:10 +0200
+
 libarchive (3.1.2-11) unstable; urgency=medium
 
   * Add d/p/Add-ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS-option.patch
