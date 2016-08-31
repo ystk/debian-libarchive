@@ -1,3 +1,11 @@
+libarchive (3.1.2-11+deb8u2) jessie-security; urgency=high
+
+  * CVE-2015-8916, CVE-2015-8917, CVE-2015-8919-CVE-2015-8926, CVE-2015-8928,
+    CVE-2015-8930-CVE-2015-8934, CVE-2016-4300, CVE-2016-4302, CVE-2016-4809,
+    CVE-2016-5844. Backports thanks to Marc Deslauriers.
+
+ -- Moritz Mühlenhoff <jmm@debian.org>  Thu, 25 Aug 2016 19:36:11 +0200
+
 libarchive (3.1.2-11+deb8u1) jessie-security; urgency=high
 
   * Non-maintainer upload by the Security Team.
