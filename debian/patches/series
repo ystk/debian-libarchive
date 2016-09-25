@@ -28,3 +28,10 @@ CVE-2016-4300.patch
 CVE-2016-4302.patch
 CVE-2016-4809.patch
 CVE-2016-5844.patch
+CVE-2016-7166-Fix-a-potential-crash-issue-discovered-by-Alexander-.patch
+Clarify-the-limit-on-number-of-filters.patch
+CVE-2016-6250-Issue-711-Be-more-careful-about-verifying-filename-l.patch
+CVE-2016-5418/Test-cases-for-Github-Issue-744-745-and-746.patch
+CVE-2016-5418/Fix-the-test-cases-for-Issue-745-and-Issue-746.patch
+CVE-2016-5418/Issue-744-part-of-Issue-743-Enforce-sandbox-with-ver.patch
+CVE-2016-5418/Fixes-for-Issue-745-and-Issue-746-from-Doran-Moppert.patch
