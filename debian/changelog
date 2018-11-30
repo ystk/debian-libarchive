@@ -1,3 +1,26 @@
+libarchive (3.1.2-11+deb8u5) jessie-security; urgency=high
+
+  * Non-maintainer upload by the LTS team.
+  * Disable the tests on armel to prevent a possible FTBFS on antheil.
+    The tests pass on a different armel porterbox (abel.debian.org).
+
+ -- Markus Koschany <apo@debian.org>  Thu, 29 Nov 2018 21:01:09 +0100
+
+libarchive (3.1.2-11+deb8u4) jessie-security; urgency=high
+
+  * Non-maintainer upload by the LTS team.
+  * Fix the following security vulnerabilities:
+    CVE-2015-8915, CVE-2016-10209, CVE-2016-10349, CVE-2016-10350,
+    CVE-2016-8687, CVE-2016-8688, CVE-2016-8689, CVE-2017-14166,
+    CVE-2017-14501, CVE-2017-14502, CVE-2017-14503, CVE-2017-5601.
+    Multiple security vulnerabilities were found in libarchive, a
+    multi-format archive and compression library. Heap-based buffer over-reads,
+    NULL pointer dereferences and out-of-bounds reads allow remote attackers to
+    cause a denial-of-service (application crash) via specially crafted
+    archive files.
+
+ -- Markus Koschany <apo@debian.org>  Thu, 29 Nov 2018 18:31:17 +0100
+
 libarchive (3.1.2-11+deb8u3) jessie-security; urgency=high
 
   * Non-maintainer upload by the Security Team.
