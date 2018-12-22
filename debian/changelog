@@ -1,3 +1,14 @@
+libarchive (3.1.2-11+deb8u6) jessie-security; urgency=high
+
+  * Non-maintainer upload by the LTS team.
+  * Fix CVE-2018-1000877 and CVE-2018-1000878:
+    Daniel Axtens discovered a double-free and use-after-free vulnerability
+    in libarchive's RAR decoder that can result in a denial-of-service
+    (application crash) or may have other unspecified impact when a malformed
+    RAR archive is processed.
+
+ -- Markus Koschany <apo@debian.org>  Fri, 21 Dec 2018 22:24:50 +0100
+
 libarchive (3.1.2-11+deb8u5) jessie-security; urgency=high
 
   * Non-maintainer upload by the LTS team.
