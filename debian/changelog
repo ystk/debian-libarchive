@@ -1,3 +1,16 @@
+libarchive (3.1.2-11+deb8u9) jessie-security; urgency=high
+
+  * Non-maintainer upload by the ELTS team.
+  * CVE-2021-31566
+    symbolic links incorrectly followed when changing modes, times, ACL
+    and flags of a file while extracting an archive
+  * CVE-2021-23177
+    extracting a symlink with ACLs modifies ACLs of target
+  * CVE-2019-19221
+    out-of-bounds read because of an incorrect mbrtowc or mbtowc call
+
+ -- Thorsten Alteholz <debian@alteholz.de>  Fri, 29 Apr 2022 22:03:02 +0200
+
 libarchive (3.1.2-11+deb8u8) jessie-security; urgency=medium
 
   * Non-maintainer upload by the LTS team.
