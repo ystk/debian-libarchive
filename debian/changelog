@@ -1,3 +1,14 @@
+libarchive (3.1.2-11+deb8u11) jessie-security; urgency=medium
+
+  * Non-maintainer upload by the ELTS Team.
+  * Ignore tests on armhf. They are failing when rebuilding deb8u8 (our
+    last armhf binaries, imported from security.debian.org), so they are
+    not a regression, but rather something with our buildd. Thus it's best
+    to ignore them so that the package can build and we can get the
+    security fixes shipped on armhf.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Tue, 21 Feb 2023 15:52:33 +0100
+
 libarchive (3.1.2-11+deb8u10) jessie-security; urgency=high
 
   * Non-maintainer upload by the ELTS team.

@@ -14,7 +14,7 @@ override_dh_auto_configure:
 		--enable-bsdtar=shared --enable-bsdcpio=shared
 
 override_dh_auto_test:
-ifeq (,$(filter $(DEB_HOST_ARCH), armel))
+ifeq (,$(filter $(DEB_HOST_ARCH), armel armhf))
 ifeq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
 ifneq (,$(shell locale -a | grep en_US.utf8))
 	_VERBOSITY_LEVEL=1 dh_auto_test --parallel
