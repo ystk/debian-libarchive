@@ -58,3 +58,5 @@ CVE-2021-31566-1.patch
 CVE-2021-31566-2.patch
 
 CVE-2022-36227.patch
+
+0001-rar4-reader-protect-copy_from_lzss_window-2172.patch
